@@ -2,7 +2,7 @@
     using System;
 
     namespace GradeBook {
-        class Book {
+        public class Book {
 
             public Book (string name) {
                 grades = new List<double> ();
@@ -13,21 +13,23 @@
                 grades.Add (grade);
             }
 
-            public void ShowStatistics () {
-                var result = 0.0;
-                var highGrade = double.MinValue;
-                var lowGrade = double.MaxValue;
-                var AvgGrade = 0.0;
+            public Statistics GetStatistics () {
 
-                foreach (double number in grades) {
-                    highGrade = Math.Max (number, highGrade);
-                    lowGrade = Math.Min (number, lowGrade);
-                    result += number;
+            
+                var result = new Statistics();
+                result.Low = double.MinValue;
+                result.High = double.MaxValue;
+                result.Average = 0.0;
+
+                foreach (var grade in grades) {
+                    result.High = Math.Max (grade, result.High);
+                    result.Low = Math.Min (grade, result.Low);
+                    result.Average += grade;
                 }
 
-                var len = grades.Count;
-                var avg = result / len;
-                System.Console.WriteLine ($"The average grade is {avg:N1} \nMax value is {highGrade}\nMin value is {lowGrade}");
+                result.Average /= grades.Count;
+                // System.Console.WriteLine ($"The average grade is {avg:N1} \nMax value is {highGrade}\nMin value is {lowGrade}");
+                return result;
             }
             private List<double> grades;
             private string name;
